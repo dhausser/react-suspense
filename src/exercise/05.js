@@ -12,6 +12,10 @@ import {
 } from '../pokemon'
 import {createResource} from '../utils'
 
+const PokemonInfo = React.lazy(() =>
+  import('../lazy/pokemon-info-render-as-you-fetch'),
+)
+
 window.useRealAPI = true
 
 function preloadImage(src) {
@@ -31,18 +35,6 @@ function Img({src, alt, ...props}) {
     imgSrcResourceCache[src] = imgSrcResource
   }
   return <img src={imgSrcResource.read()} alt={alt} {...props} />
-}
-
-function PokemonInfo({pokemonResource}) {
-  const pokemon = pokemonResource.data.read()
-  return (
-    <div>
-      <div className="pokemon-info__img-wrapper">
-        <img src={pokemonResource.image.read()} alt={pokemon.name} />
-      </div>
-      <PokemonDataView pokemon={pokemon} />
-    </div>
-  )
 }
 
 const SUSPENSE_CONFIG = {
